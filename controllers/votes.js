@@ -29,6 +29,20 @@ async function castVote(req, res) {
   }
 }
 
+async function index(req, res) {
+  try {
+    const profiles = await Profile.findAll({
+      include: [{ model: Vote, as: "votesReceived" }],
+    })
+    res.status(200).json(profiles)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ err: error })
+  }
+}
+
+
 module.exports = {
-  castVote
+  castVote,
+  index,
 }
